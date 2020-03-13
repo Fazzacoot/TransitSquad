@@ -5,9 +5,6 @@ import app from "../app";
 chai.use(chaiHttp);
 
 describe("Index Test", () => {
-  it("should always pass", function() {
-    expect(true).to.equal(true);
-  });
   it("should return 200", function(done) {
     chai
       .request(app)

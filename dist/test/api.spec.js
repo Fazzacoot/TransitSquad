@@ -16,6 +16,8 @@ const axios_mock_adapter_1 = __importDefault(require("axios-mock-adapter"));
 const github_1 = require("../apis/github");
 const api_1 = require("../controllers/api");
 const users_response_1 = __importDefault(require("./response/users_response"));
+const followes_response_1 = __importDefault(require("./response/followes_response"));
+const search_response_1 = __importDefault(require("./response/search_response"));
 chai_1.default.use(chai_http_1.default);
 describe("Api Test", () => {
     // it("should GET /api/v1", async function() {
@@ -30,6 +32,23 @@ describe("Api Test", () => {
         const response = await api_1.getUserInformation("Fazzacoot");
         chai_1.expect(typeof response).to.equal("object");
         chai_1.expect(response.name).to.equal("Faron Gottlieb");
+    });
+    it("Count user followers", async () => {
+        const mock = new axios_mock_adapter_1.default(github_1.github);
+        mock.onGet("/users/Fazzacoot/following").reply(200, followes_response_1.default);
+        const response = await api_1.countFollowerInformation("Fazzacoot");
+        chai_1.expect(typeof response).to.equal("number");
+        chai_1.expect(response).to.equal(1);
+    });
+    it("Get search result", async () => {
+        const mock = new axios_mock_adapter_1.default(github_1.github);
+        mock
+            .onGet("/search/users?q=language:Javascript+user:Fazzacoot")
+            .reply(200, search_response_1.default);
+        const response = await api_1.searchUsers("Fazzacoot", ["Javascript"]);
+        chai_1.expect(typeof response).to.equal("object");
+        chai_1.expect(response.login).to.equal("Fazzacoot");
+        chai_1.expect(response.avatar_url).to.equal("https://avatars3.githubusercontent.com/u/10685711?v=4");
     });
 });
 //# sourceMappingURL=api.spec.js.map
