@@ -24,32 +24,41 @@ interface SearchInformantion {
 export const searchGitUser: RequestHandler = async (req, res, next) => {
   try {
     const { languages, username } = req.body;
-    let userLanguages: string = "";
-    if (languages.length === 1) {
-      userLanguages = languages[0];
-    } else {
-      languages.map((language: string, index: number) => {
-        if (index + 1 === languages.length) {
-          userLanguages += `${language}`;
-        } else {
-          userLanguages += `${language}+or+`;
-        }
-      });
-    }
-
+    // let userLanguages: string = "";
+    // if (languages.length === 1) {
+    //   userLanguages = languages[0];
+    // } else {
+    //   languages.map((language: string, index: number) => {
+    //     if (index + 1 === languages.length) {
+    //       userLanguages += `${language}`;
+    //     } else {
+    //       userLanguages += `${language}+or+`;
+    //     }
+    //   });
+    // }
+    const searchInformation = await searchUsers(username, languages);
     const userInformation = await getUserInformation(username);
     const followerInformation = await countFollowerInformation(username);
-    const searchInformation = await searchUsers(username, languages);
-
     const userObj = {
-      username: searchInformation.data.items[0].login,
+      username:
+        searchInformation.data.items.length > 0
+          ? searchInformation.data.items[0].login
+          : "",
       name: userInformation.name,
-      avatarURL: searchInformation.data.items[0].avatar_url,
+      avatarURL:
+        searchInformation.data.items.length > 0
+          ? searchInformation.data.items[0].avatar_url
+          : "",
       followers: followerInformation
     };
-    res.status(200).json(userObj);
+    if (searchInformation.data.items.length > 0) {
+      res.status(200).json(userObj);
+    } else {
+      res.status(200).json({ no: "NO" });
+    }
   } catch (error) {
-    res.status(400).json({ error:"Invalid Json object" });
+    console.log(error);
+    res.status(400).json({ error: "Invalid Json object" });
   }
 };
 
@@ -65,9 +74,14 @@ export const countFollowerInformation = async (username: string) => {
   return followers.data.length;
 };
 
+let index = 0;
 export const searchUsers = async (username: string, languages: string[]) => {
   const search: SearchInformantion = await github.get(
-    `/search/users?q=language:${languages}+user:${username}`
+    `/search/users?q=language:${languages[index]}+user:${username}`
   );
+  if (search.data.items.length > 0) {
+    index++;
+    searchUsers(username, languages);
+  }
   return search;
 };
