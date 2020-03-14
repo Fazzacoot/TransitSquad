@@ -14,13 +14,7 @@ import expectedSearch from "./response/search_response";
 
 chai.use(chaiHttp);
 describe("Api Test", () => {
-  // it("should GET /api/v1", async function() {
-  //   const res = await chai.request(app).get("/api/v1");
-  //   expect(res.status).to.equal(200);
-  //   expect(res.body).not.to.be.empty;
-  //   expect(res.body).to.be.an("object");
-  // });
-
+ 
   it("Get a user by username", async () => {
     const mock = new MockAdapter(github);
     mock.onGet("/users/Fazzacoot").reply(200, expectedUser);
@@ -45,7 +39,7 @@ describe("Api Test", () => {
       .onGet("/search/users?q=language:Javascript+user:Fazzacoot")
       .reply(200, expectedSearch);
 
-    const response = await searchUsers("Fazzacoot", ["Javascript"]);
+    const response = await searchUsers("Fazzacoot", "Javascript");
     expect(typeof response).to.equal("object");
     expect(response.status).to.equal(200);
     expect(response.data.items[0].login).to.equal("Fazzacoot");
