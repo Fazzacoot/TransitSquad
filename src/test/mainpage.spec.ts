@@ -11,16 +11,6 @@ describe("Index Test", () => {
       .get("/")
       .end(function(err, res) {
         expect(res.status).to.equal(200);
-        expect(res.text).to.eql("Hello World");
-        done();
-      });
-  });
-  it("should return Hello World", function(done) {
-    chai
-      .request(app)
-      .get("/")
-      .end(function(err, res) {
-        expect(res.text).to.eql("Hello World");
         done();
       });
   });

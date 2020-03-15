@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { json } from "body-parser";
+import path  from "path";
 
 import viewRoutes from "./routes/view";
 import apiRoutes from "./routes/api";
@@ -7,6 +8,9 @@ import apiRoutes from "./routes/api";
 const app = express();
 
 app.use(json());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'pug')
+
 
 app.use("/", viewRoutes);
 app.use("/api/v1", apiRoutes);

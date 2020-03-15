@@ -1,0 +1,22 @@
+link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
+html
+  head
+    title="API Document"
+  body
+    .d-flex.justify-content-center.align-items-center(style="height:100vh")
+      .card(style='width: 18rem;')
+        .card-body
+          h5.card-title Api Information
+          h6.card-subtitle.mb-2.text-muted
+            strong(style="color:green") Endpoint: /api/v1
+          h6.card-subtitle.mb-2.text-muted
+            strong(style="color:red") Method: POST
+          h6.card-subtitle.mb-2.text-muted
+            strong(style="color:orange") Body
+          p.card-text
+            code
+              | {
+              | &quot;username&quot;: &quot;${username}&quot;,
+              | &quot;languages&quot;: [&quot;${language}&quot;]
+              | }

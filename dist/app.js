@@ -9,6 +9,8 @@ const view_1 = __importDefault(require("./routes/view"));
 const api_1 = __importDefault(require("./routes/api"));
 const app = express_1.default();
 app.use(body_parser_1.json());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'pug');
 app.use("/", view_1.default);
 app.use("/api/v1", api_1.default);
 //Error handling function

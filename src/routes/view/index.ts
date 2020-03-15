@@ -1,11 +1,8 @@
 import { Router, RequestHandler } from "express";
+import { renderDocument } from "../../controllers/view";
 
 const router = Router();
 
-const getTodos: RequestHandler =  (req, res, next) => {
-  res.status(200).send("Hello World");
-};
-
-router.get("/", getTodos);
+router.get("/", renderDocument);
 
 export default router;
